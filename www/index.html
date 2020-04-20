@@ -2,12 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>ZIM - Code Creativity</title>
+<title>Space Voyager</title>
 
 <!-- Welcome to ZIM at https://zimjs.com - Code Creativity!                              -->
 <!-- ZIM runs on the HTML Canvas powered by JavaScript and CreateJS https://createjs.com -->
 <!-- Founded by Inventor Dan Zen - http://danzen.com - Canadian New Media Award Winner   -->
 <!-- ZIM is free to use. You can donate to help improve ZIM at https://zimjs.com/donate  -->
+<link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
 
 <script src="https://zimjs.org/cdn/1.2.4/createjs.js"></script>
 <script src="https://zimjs.org/cdn/10.8.0/zim.js"></script>
@@ -25,32 +26,463 @@
 const scaling = "full"; // this will resize to fit inside the screen dimensions
 const width = 1024;
 const height = 768;
-const color = light; // ZIM colors like green, blue, pink, faint, clear, etc.
+const color = dark; // ZIM colors like green, blue, pink, faint, clear, etc.
 const outerColor = dark; // any HTML colors like "violet", "#333", etc. are fine to use
+const path = "assets/";
+const assets = ["background.png","backgrounddark.png","background.mp3","gameover.mp3","middleground.png","frontground.png","middlegrounddark.png","frontgrounddark.png","ast4.png","ast5.png","asteroid.png","asteroid1.png","star.png","star.json","star.mp3","spaceship.png","magicrock.png","magicrock1.png"];
 
-const frame = new Frame(scaling, width, height, color, outerColor);
+const frame = new Frame(scaling, width, height, color, outerColor, assets, path);
 frame.on("ready", () => { // ES6 Arrow Function - like function(){}
     zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
 
     const stage = frame.stage;
     let stageW = frame.width;
     let stageH = frame.height;
+   
 
     // see https://zimjs.com/learn.html for video and code tutorials
     // see https://zimjs.com/docs.html for documentation
     // see https://zimjs.com/bits.html for 64 Interactive Media techniques
 
-    // put your code here (you can delete this sample code)
+    //PAGE 1 -----------------------
+   
+    const page1 = new Container(stageW,stageH);
+    page1.backing = new Rectangle(page1.width, page1.height, dark).addTo(page1);
+    page1.background = frame.asset("backgrounddark.png").scaleTo(page1, null, 100).addTo(page1);
+    new Scroller(page1.background,2,null,null,null,stage,page1);
+    page1.middleground = frame.asset("middlegrounddark.png").scaleTo(page1).addTo(page1).pos(null,null,CENTER,BOTTOM);
+    new Scroller(page1.middleground,2,null,null,null,stage,page1);
+    
+    var backmusic = frame.asset("background.mp3").play();
+    var gameover = frame.asset("gameover.mp3");
+    
 
-    // with chaining - can also assign to a variable for later access
-    new Circle(100, pink)
-        .center()
-        .drag();
+    page1.astronaut = new Sprite({image:asset("ast4.png"), cols:4, rows:1})
+    .center(page1).sca(stageW*.0009).run({loop:true,time:700}).loc(100,190).alp(0);
 
-    // without chaining
-    // const circle = new Circle(100, pink);
-    // circle.center();
-    // circle.drag();
+    timeout(11500,()=>{
+        page1.astronaut.alpha = 1
+    });
+
+
+    page1.frontground = frame.asset("frontground.png").scaleTo(page1).addTo(page1).pos(null,-5,CENTER,BOTTOM);
+    new Scroller(page1.frontground,2,null,null,null,stage,page1);
+
+
+    //Intro 
+    var label;
+    timeout(1000, ()=>{
+            label = new Label({
+                    text:"Space Voyager",
+                    size:50,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.001)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(3000, ()=>{
+        label.removeFrom();
+    });
+
+    timeout(3500, ()=>{
+            label = new Label({
+                    text:"You Finished #890 Moon Mission and Ready To Go Home",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(6500, ()=>{
+        label.removeFrom();
+    });
+
+    timeout(7000, ()=>{
+            label = new Label({
+                    text:"But Now You are Trapped On the DARK SIDE of the Moon",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(11000, ()=>{
+        label.removeFrom();
+    });
+
+    timeout(11500, ()=>{
+            label = new Label({
+                    text:"You Can Move the Astronaut Around With Your Fingers",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(15500, ()=>{
+        label.removeFrom();
+    });
+
+
+    timeout(16000, ()=>{
+            label = new Label({
+                    text:"Avoid All Falling Asteroids and Reach to the Magic Stone",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(19000, ()=>{
+        label.removeFrom();
+    });
+
+    timeout(19500, ()=>{
+            label = new Label({
+                    text:"It Will Lead You to the BRIGHT SIDE of the Moon",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page1)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+        });
+
+    timeout(22000, ()=>{
+        label.removeFrom();
+    });
+
+
+
+
+    //Page 1 Control
+    var controller = new MotionController({
+                            target:page1.astronaut,
+                            type:"mousemove",
+                            speed:5,
+                            flip:"horizontal"});
+
+
+    var shootTimes = [2000,3000,4000,5000];
+    var asteroids = new Container(stageW,stageH).addTo(page1);
+    var asteroid;
+
+    function dropAsteroid() {
+
+        interval([100, 800], function(obj) {
+           asteroid = new Sprite({image:asset("asteroid.png"), cols:16, rows:2})
+                .centerReg(asteroids).sca(stageW*.0006).run({loop:true,time:1200}).loc(rand(stageW),-100);
+
+            asteroid.animate({
+                props:{y:1500},time:shootTimes
+                });
+        });
+    };
+
+    timeout(22500, ()=>{
+        dropAsteroid();
+    });
+   
+    var astronautDie;
+
+    Ticker.add(function(){
+        loop(asteroids,function(asteroid){
+                if (asteroid.hitTestBounds(page1.astronaut)) {
+                    zog("hit!");
+                    gameover.play();
+                    astronautDie = new Sprite({image:asset("ast5.png"), cols:4, rows:1}).loc(page1.astronaut).sca(stageW*.0009).run({loop:false,time:1200});
+                    page1.astronaut.removeFrom();
+                    timeout(2000,function(){
+                        astronautDie.removeFrom();
+                     });
+                     page1.button = new Button(100, 60, "⟳", black, "#4A7CF6", white).addTo(page1).mov(50,50).alp(.4)
+                        .sca(stageW*.0013)
+                        .tap(function () {
+                        zgo("index.html");
+                        stage.update();
+                        });
+                    };
+            },true);
+    });
+
+   
+
+
+    //TRIANGLE1
+    page1.triangle = frame.asset("magicrock.png")
+        .center(page1)
+        .mov(100,100);
+
+
+    page1.triangle.on("mousedown", () => {
+            // pages.go(page2, "right", "slide", 1000);
+            pages.go(page2, "right");
+    });
+
+
+    Ticker.add(function(){
+                if (page1.astronaut.hitTestReg(page1.triangle)) {
+                    pages.go(page2, "right");   
+                    var brightSide = new Label({
+                            text:"BRIGHT SIDE of the Moon.",
+                            size:30,
+                            font:"Orbitron",
+                            color:"white",
+                            fontOptions:"bold",
+                            lineWidth:537
+                            })
+                            .sca(stageW*0.0012)
+                            .centerReg(page2)
+                            .mov(0,-40);
+                        //     .animate({
+                        //         props:{alpha:0, scale:0}, 
+                        //         time:1000, 
+                        //         from:true
+                        // });  
+                    timeout(4000,function(){
+                        brightSide.removeFrom();
+                    }) 
+                    timeout(4500,function(){
+                        var brightSide2 = new Label({
+                            text:"Collect All the Stars to Build the Spaceship.",
+                            size:20,
+                            font:"Orbitron",
+                            color:"white",
+                            fontOptions:"bold",
+                            lineWidth:537
+                            })
+                            .sca(stageW*0.0012)
+                            .centerReg(page2)
+                            .mov(0,-40);
+                        //     .animate({
+                        //         props:{alpha:0, scale:0}, 
+                        //         time:1000, 
+                        //         from:true
+                        // });  
+                    timeout(8500,function(){
+                        brightSide2.removeFrom();
+                    })
+                    })
+                };    
+    });
+   
+
+
+        
+
+     // PAGE 2 --------------------------
+    const page2 = new Container(stageW,stageH);
+    page2.backing = new Rectangle(page2.width, page2.height, light).addTo(page2);
+    page2.background = frame.asset("background.png").scaleTo(page1, null, 100).addTo(page2);
+
+    new Scroller(page2.background,2,null,null,null,stage,page2);
+    page2.middleground = frame.asset("middleground.png").scaleTo(page2).addTo(page2).pos(null,null,CENTER,BOTTOM);
+    new Scroller(page2.middleground,2,null,null,null,stage,page2);
+    
+
+    page2.astronaut = new Sprite({image:asset("ast4.png"), cols:4, rows:1})
+    .center(page2).sca(stageW*.0009).run({loop:true,time:700}).loc(100,190);
+
+
+    page2.frontground = frame.asset("frontgrounddark.png").scaleTo(page2).addTo(page2).pos(null,-5,CENTER,BOTTOM);
+    new Scroller(page2.frontground,2,null,null,null,stage,page2);
+
+  
+    var controller = new MotionController({
+                            target:page2.astronaut,
+                            type:"mousemove",
+                            speed:5,
+                            flip:"horizontal"});
+
+
+    var shootTimes2 = [2000,3000,4000,5000];
+    var stars = new Container(stageW,stageH).addTo(page2);
+    var star;
+
+    function dropStar() {
+
+        interval([100, 800], function(obj) {
+        //    star = new Sprite({image:asset("star.json"), cols:3, rows:3})
+        //         .centerReg(stars).sca(stageW*.0004).run({loop:true,time:1200}).loc(rand(stageW),-100);
+            star = new Sprite({json:asset("star.json")}).centerReg(stars).sca(stageW*.0003).run({loop:true,time:1200}).loc(rand(stageW),-100);
+
+            star.animate({
+                props:{y:1500},time:shootTimes
+                });
+        });
+    };
+
+    dropStar();
+
+
+    
+    page2.spaceship = frame.asset("spaceship.png").addTo(page2).loc(stageW*0.8,stageH*0.7).sca(stageW*0.002).alp(0);
+
+    
+
+    Ticker.add(function(){
+            
+        loop(stars,function(stars){
+                if (stars.hitTestCircle(page2.astronaut)) {
+                    zog("hit2!");
+                    page2.spaceship.alpha += 0.05
+                    frame.asset("star.mp3").play();
+                };
+                if (page2.spaceship.hitTestBounds(page2.astronaut) && page2.spaceship.alpha >= 1.){
+                    zog("success");
+                    page2.astronaut.removeFrom();
+                    page2.spaceship.animate({
+                        props:{x:-2000,y:-1500},time:5000
+                     });
+                timeout(1000,function(){
+                    var successMessage = new Label({
+                    text:"Congratulations! You Are On Your Way Home.",
+                    size:20,
+                    font:"Orbitron",
+                    color:"white",
+                    fontOptions:"bold"
+                    })
+                    .sca(stageW*0.0012)
+                    .centerReg(page2)
+                    .mov(0,-40)
+                    .animate({
+                        props:{alpha:0, scale:0}, 
+                        time:1000, 
+                        from:true
+                    });
+                })
+               
+                }
+            },true);
+    });
+
+    //PAGE 2 Triangle
+
+    page2.triangle = frame.asset("magicrock1.png")
+        .center(page2)
+        .mov(100,100);
+
+    page2.triangle.on("mousedown", () => {
+        // pages.go(page2, "right", "slide", 1000);
+        pages.go(page1, "left");
+    });
+
+    Ticker.add(function(){
+                if (page2.astronaut.hitTestReg(page2.triangle)) {
+                    pages.go(page1, "left");
+                };    
+    });
+
+
+
+
+
+
+
+    //SWIPE ----------------------------------
+    // const pages = new Pages([
+    //     {page:page1, swipe:[page2, page2, "help", "help"]},
+    //     {page:page2, swipe:[page1, page1, "help", "help"]}
+    // ], "slide", 700).addTo();
+
+    const pages = new Pages([
+        {page:page1},
+        {page:page2}
+    ], "slide", 700).addTo();
+
+    pages.on("help", () => {
+        if (pages.page == page2) {
+            zogg("helping");
+        } else {
+            zogr("helping");
+        }
+    });
+
+
+
+
+    //RESIZE ----------------------------------
+    frame.on("resize", () => {
+        stageW = frame.width;
+        stageH = frame.height;
+        page1.scaleTo(stage,null,100);
+
+        // page1.setBounds(stageW, stageH);
+        // page1.backing.siz(stageW, stageH);
+        // page1.background.siz(stageW,stageH);
+        // page1.background.scaleTo(stage,100,100).loc(stageW*.5, stageH*.5);
+        // page1.triangle.loc(stageW*.3, stageH*.3);
+        page1.triangle.scaleTo(stage,15,15).loc(stageW*.9/page1.scaleX, stageH*.8/page1.scaleY);
+
+   
+        
+
+        // page2.setBounds(stageW, stageH);
+        // page2.backing.siz(stageW, stageH);
+        // page2.triangle.scaleTo(stage,10,10).loc(stageW*.1, stageH*.8);
+
+        page2.scaleTo(stage,null,100);
+        page2.triangle.scaleTo(stage,15,15).loc(stageW*.1/page2.scaleX, stageH*.8/page2.scaleY);
+        page2.spaceship.scaleTo(stage,30,30).loc(stageW*.8/page2.scaleX, stageH*.65/page2.scaleY);
+        pages.resize();
+    })
+
+
+
+
 
     stage.update(); // this is needed to show any changes
 
